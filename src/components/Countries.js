@@ -3,93 +3,78 @@ import axios from "axios";
 import Card from "./Card";
 
 const Countries = () => {
-
   /**Pour stocker la data apres la requete HTTP */
-  const [ data, setData ] = useState( [] );
-
-  /** Pour ranger les pays par ordre decroissant de population */
-  const [ sortedData, setSortedData ] = useState( [] );
-
-  /**Pour faire la requete une seule fois */
-  const [ playone, setPlayOne ] = useState( true );
+  const [data, setData] = useState([]);
 
   /**Pour faire évoluer la valeur de l'input range */
-  const [ rangeValue, setRangeValue ] = useState( 20 );
+  const [rangeValue, setRangeValue] = useState(20);
 
   /**pour faire évoluer la sélection de l'input de type radio */
-  const [ selectedRadio, setSelectedRadio ] = useState( "" )
+  const [selectedRadio, setSelectedRadio] = useState("");
   /**Tableau pour stocker les pays par continents */
-  const radios = [ "Africa", "America", "Asia", "Europe", "Oceania", "Antarctic" ];
+  let radios = ["Africa", "America", "Asia", "Europe", "Oceania", "Antarctic"];
 
-  useEffect( () => {
-
+  useEffect(() => {
     /**If nous permet de faire la requete une seule fois */
-    if ( playone ) {
-      axios
-        .get(
-          "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags"
-        )
-        .then( ( res ) => {
-          setData(res.data );
-          setPlayOne(false);
-        } ); 
-    }
-    
-    const sortedCountry = () => {
 
-      /***ON CONVERTIR NOTRE TABLEAU EN OBJET JAVASCRIPT */
-      const countryObject = Object.keys( data ).map( ( i ) => data[ i ] );
+    axios
+      .get(
+        "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags"
+      )
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
 
-      /**ON TRIE NOTRE TABLEAU DU PLUS PETIT AU PLUS GRAND */
-      const sortedArray = countryObject.sort( ( a, b ) => {
-        return b.population - a.population;
-      } )
-      sortedArray.length = rangeValue; /**On affecte la valeur du range dynamiquement à la longueur du tableau trier */
-      setSortedData(sortedArray);
-    };
-    sortedCountry();
-
-  }, [data, rangeValue,playone ]);
-
+  // const continent = new Set(data.map((data) => data.region));
+  // console.log(continent);
   return (
     <div className="countries">
-
       <div className="sort-container">
+        <input
+          type="range"
+          name="inputpays"
+          id="pays"
+          min="1"
+          max="250"
+          value={rangeValue}
+          onChange={(e) => setRangeValue(e.target.value)}
+        />
 
-        <input type="range" name="inputpays" id="pays" min="1" max="250" value={ rangeValue } onChange={ ( e ) => setRangeValue( e.target.value ) } />
-        
         <ul>
-          { radios.map( ( radio ) => {
+          {radios.map((radio) => {
             return (
-              <li key={ radio }>
-                <input type="radio"
-                  name={ radio }
-                  id={ radio }
-                  value={ radio }
-                  checked={ radio === selectedRadio }
-                  onChange={(e)=> setSelectedRadio(e.target.value)}/>
-                <label htmlFor={ radio }>{ radio}</label>
+              <li key={radio}>
+                <input
+                  type="radio"
+                  name="continentRadio"
+                  id={radio}
+                  value={radio}
+                  checked={radio === selectedRadio}
+                  onChange={(e) => setSelectedRadio(e.target.value)}
+                />
+                <label htmlFor={radio}>{radio}</label>
               </li>
-            )
+            );
           })}
         </ul>
-
       </div>
 
       <div className="cancel">
-        {selectedRadio && 
-        <h5 onClick={()=> setSelectedRadio("")}>Annuler recherche</h5>}
+        {selectedRadio && (
+          <h5 onClick={() => setSelectedRadio("")}>Annuler recherche</h5>
+        )}
       </div>
 
       <ul className="countries-list">
-        { sortedData
-          .filter( ( country ) => 
-            country.region.includes( selectedRadio ) )
-          .map( ( country ) => (
-            <Card country={ country } key={ country.name.common } /> ) )
-        }
+        {data
+          .sort((a, b) => b.population - a.population)
+          .filter((country) => country.region.includes(selectedRadio))
+          .slice(0, rangeValue)
+          .map((country) => (
+            <Card country={country} key={country.name.common} />
+          ))}
       </ul>
-
     </div>
   );
 };
