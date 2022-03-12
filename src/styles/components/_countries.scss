@@ -52,15 +52,24 @@
       }
     }
   }
-
-  .countries-list {
+  .countries-container {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    // background-color: red;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 
-    @media (max-width: 800px) {
-      margin: auto;
-      // justify-content: center;
+    .countries-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 auto;
+      width: 90%;
+      // display: grid;
+      // grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+      @media (max-width: 800px) {
+        margin: auto;
+      }
     }
   }
 }

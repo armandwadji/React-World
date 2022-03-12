@@ -11,12 +11,11 @@ const Countries = () => {
 
   /**pour faire évoluer la sélection de l'input de type radio */
   const [selectedRadio, setSelectedRadio] = useState("");
+
   /**Tableau pour stocker les pays par continents */
   let radios = ["Africa", "America", "Asia", "Europe", "Oceania", "Antarctic"];
 
   useEffect(() => {
-    /**If nous permet de faire la requete une seule fois */
-
     axios
       .get(
         "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags"
@@ -26,8 +25,9 @@ const Countries = () => {
       });
   }, []);
 
-  // const continent = new Set(data.map((data) => data.region));
-  // console.log(continent);
+  const continents = new Set(data.map((data) => data.region));
+  console.log(continents);
+
   return (
     <div className="countries">
       <div className="sort-container">
@@ -65,16 +65,17 @@ const Countries = () => {
           <h5 onClick={() => setSelectedRadio("")}>Annuler recherche</h5>
         )}
       </div>
-
-      <ul className="countries-list">
-        {data
-          .sort((a, b) => b.population - a.population)
-          .filter((country) => country.region.includes(selectedRadio))
-          .slice(0, rangeValue)
-          .map((country) => (
-            <Card country={country} key={country.name.common} />
-          ))}
-      </ul>
+      <div className="countries-container">
+        <ul className="countries-list">
+          {data
+            .sort((a, b) => b.population - a.population)
+            .filter((country) => country.region.includes(selectedRadio))
+            .slice(0, rangeValue)
+            .map((country) => (
+              <Card country={country} key={country.name.common} />
+            ))}
+        </ul>
+      </div>
     </div>
   );
 };
