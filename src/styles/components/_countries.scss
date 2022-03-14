@@ -52,24 +52,13 @@
       }
     }
   }
-  .countries-container {
-    width: 100%;
-    display: flex;
+
+  .countries-list {
+    margin: auto 10px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 10px;
     justify-content: center;
-    align-items: center;
-    padding: 0 10px;
-
-    .countries-list {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0 auto;
-      width: 90%;
-      // display: grid;
-      // grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-
-      @media (max-width: 800px) {
-        margin: auto;
-      }
-    }
   }
 }
