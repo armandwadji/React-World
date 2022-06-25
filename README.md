@@ -5,7 +5,7 @@
   </h1>
 </div> 
 
-lien du site : [ReactWord](https://reactworldaw.netlify.app)
+lien du site : [ReactWorld](https://reactworldaw.netlify.app)
 
 Lien de l' API utilisé : [ReactWordAPI](https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags)
 
