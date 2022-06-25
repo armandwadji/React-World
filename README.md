@@ -29,6 +29,12 @@ Ensuite il faudra installer les dépendances du projet avec la commande suivante
 ```
 npm install
 ```
+
+Enfin installer json-server (si c'est pas déja fait) pour simuler un backend sur votre ordianateur :
+
+```
+npm install -g json-server
+```
 ## Démarrer l'application
 Une fois les dependances correctement installer, lancer tout d'abord le simulateur de backend avec la commande suivante :
 
