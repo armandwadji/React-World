@@ -13,7 +13,7 @@ const Countries = () => {
   const [selectedRadio, setSelectedRadio] = useState("");
 
   /**Tableau pour stocker les pays par continents */
-  let radios = ["Africa", "America", "Asia", "Europe", "Oceania", "Antarctic"];
+  const continents = [...new Set(data.map((data) => data.region))];
 
   useEffect(() => {
     axios
@@ -25,29 +25,26 @@ const Countries = () => {
       });
   }, []);
 
-  const continents = new Set(data.map((data) => data.region));
-  console.log(continents);
-
   return (
-    <div className="countries">
-      <div className="sort-container">
+    <div className='countries'>
+      <div className='sort-container'>
         <input
-          type="range"
-          name="inputpays"
-          id="pays"
-          min="1"
-          max="250"
+          type='range'
+          name='inputpays'
+          id='pays'
+          min='1'
+          max='250'
           value={rangeValue}
           onChange={(e) => setRangeValue(e.target.value)}
         />
 
         <ul>
-          {radios.map((radio) => {
+          {continents.map((radio) => {
             return (
               <li key={radio}>
                 <input
-                  type="radio"
-                  name="continentRadio"
+                  type='radio'
+                  name='continentRadio'
                   id={radio}
                   value={radio}
                   checked={radio === selectedRadio}
@@ -60,13 +57,13 @@ const Countries = () => {
         </ul>
       </div>
 
-      <div className="cancel">
+      <div className='cancel'>
         {selectedRadio && (
           <h5 onClick={() => setSelectedRadio("")}>Annuler recherche</h5>
         )}
       </div>
-      <div className="countries-container">
-        <ul className="countries-list">
+      <div className='countries-container'>
+        <ul className='countries-list'>
           {data
             .sort((a, b) => b.population - a.population)
             .filter((country) => country.region.includes(selectedRadio))
